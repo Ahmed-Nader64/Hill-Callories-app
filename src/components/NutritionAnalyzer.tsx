@@ -62,14 +62,14 @@ export const NutritionAnalyzer = () => {
 
   const analyzeNutrition = async () => {
     if (!selectedFile) return;
-    
+
     setIsAnalyzing(true);
-    
+
     try {
       const formData = new FormData();
       formData.append('image', selectedFile);
 
-      const response = await fetch('https://4e87981ff717.ngrok-free.app/webhook/meal-ai', {
+      const response = await fetch('https://774202a1fc27.ngrok-free.app', {
         method: 'POST',
         body: formData,
       });
@@ -80,7 +80,7 @@ export const NutritionAnalyzer = () => {
 
       const json = await response.json();
       const output = Array.isArray(json) ? json[0]?.output : json?.output;
-      
+
       if (output && (output.food || output.foods || output.total || output.totals)) {
         // Handle new format with "food" and "total"
         const foods = output.food ? output.food.map((item: any) => ({
@@ -101,7 +101,7 @@ export const NutritionAnalyzer = () => {
             cholesterol: item.cholesterol ?? 0
           }
         })) : output.foods ?? [];
-        
+
         const totals = output.total ? {
           calories: output.total.calories ?? 0,
           protein: output.total.protein ?? 0,
@@ -165,9 +165,9 @@ export const NutritionAnalyzer = () => {
             className="hidden"
             capture="environment"
           />
-          
+
           {!selectedImage ? (
-            <div 
+            <div
               className="relative p-12 cursor-pointer group hover:bg-muted/30 transition-all duration-300"
               onClick={triggerFileInput}
               onDragOver={(e) => e.preventDefault()}
@@ -198,14 +198,14 @@ export const NutritionAnalyzer = () => {
                   </p>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button 
+                  <Button
                     size="lg"
                     className="bg-primary hover:bg-primary-hover text-primary-foreground shadow-primary text-lg px-8 py-6 h-auto"
                   >
                     <Camera className="w-5 h-5 mr-3" />
                     Take Photo
                   </Button>
-                  <Button 
+                  <Button
                     variant="outline"
                     size="lg"
                     className="border-2 border-primary text-primary hover:bg-primary/10 transition-smooth text-lg px-8 py-6 h-auto"
@@ -253,7 +253,7 @@ export const NutritionAnalyzer = () => {
                   </Button>
                 </div>
               </div>
-              
+
               {/* Preview Results Area */}
               <div className="bg-muted/30 p-8 flex items-center justify-center">
                 {isAnalyzing ? (
@@ -292,7 +292,7 @@ export const NutritionAnalyzer = () => {
               </h3>
               <div className="w-16 h-1 bg-gradient-accent rounded mx-auto"></div>
             </div>
-            
+
             {/* Total Nutrition */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <div className="text-center p-4 bg-primary/5 rounded-lg">
@@ -303,7 +303,7 @@ export const NutritionAnalyzer = () => {
                   Calories
                 </div>
               </div>
-              
+
               <div className="text-center p-4 bg-secondary/5 rounded-lg">
                 <div className="text-3xl font-bold text-secondary mb-1">
                   {nutritionData.totals.protein}g
@@ -312,7 +312,7 @@ export const NutritionAnalyzer = () => {
                   Protein
                 </div>
               </div>
-              
+
               <div className="text-center p-4 bg-accent/5 rounded-lg">
                 <div className="text-3xl font-bold text-accent mb-1">
                   {nutritionData.totals.carbs}g
@@ -321,7 +321,7 @@ export const NutritionAnalyzer = () => {
                   Carbs
                 </div>
               </div>
-              
+
               <div className="text-center p-4 bg-muted rounded-lg">
                 <div className="text-3xl font-bold text-card-foreground mb-1">
                   {nutritionData.totals.fat}g
@@ -366,10 +366,10 @@ export const NutritionAnalyzer = () => {
                 ))}
               </div>
             </div>
-            
+
             <div className="mt-6 p-4 bg-primary/5 rounded-lg">
               <p className="text-sm text-muted-foreground text-center">
-                <span className="text-primary font-semibold">Powered by AI</span> • 
+                <span className="text-primary font-semibold">Powered by AI</span> •
                 Results are estimates based on visual analysis
               </p>
             </div>
