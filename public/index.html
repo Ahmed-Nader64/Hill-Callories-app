@@ -15,21 +15,60 @@
   </head>
   <body>
     <header>
-      <h1>HeroCal Web Service</h1>
-      <p>Deployment is live. Static site is served, API and webhooks are ready.</p>
+      <h1>HeroCal</h1>
+      <p>A lightweight service for webhook handling and API status.</p>
     </header>
     <main>
       <section class="card">
-        <h2>Endpoints</h2>
+        <h2>Welcome</h2>
+        <p>Your deployment is live. Use the endpoints below or send webhooks directly.</p>
+      </section>
+      <section class="card" style="margin-top:16px">
+        <h2>Quick Links</h2>
         <ul>
-          <li>Homepage (this page): <code>/</code></li>
-          <li>Health check: <code>/health</code></li>
-          <li>API status: <code>/api</code></li>
-          <li>Webhook (POST): <code>/webhook</code></li>
-          <li>Webhook (POST to root, for ngrok): <code>/</code></li>
+          <li><a href="/health">Health Check</a></li>
+          <li><a href="/api">API Status JSON</a></li>
         </ul>
       </section>
+      <section class="card" style="margin-top:16px">
+        <h2>Send Test Webhook</h2>
+        <form id="hookform">
+          <label for="endpoint">Endpoint</label>
+          <div><code>POST</code> <input id="endpoint" value="/webhook" style="width:60%" /></div>
+          <label for="payload" style="display:block;margin-top:8px">Payload (JSON)</label>
+          <textarea id="payload" rows="6" style="width:100%">{
+  "event_type": "test",
+  "message": "Hello from HeroCal"
+}</textarea>
+          <div style="margin-top:8px">
+            <button type="submit">Send</button>
+            <span id="status" style="margin-left:10px"></span>
+          </div>
+        </form>
+        <pre id="response" style="margin-top:12px;white-space:pre-wrap"></pre>
+      </section>
     </main>
+    <script>
+      const form = document.getElementById('hookform');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const endpoint = document.getElementById('endpoint').value || '/webhook';
+        const payloadText = document.getElementById('payload').value;
+        const statusEl = document.getElementById('status');
+        const respEl = document.getElementById('response');
+        statusEl.textContent = 'Sending...';
+        respEl.textContent = '';
+        try {
+          const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payloadText });
+          const text = await res.text();
+          statusEl.textContent = res.ok ? '200 OK' : res.status + ' ' + res.statusText;
+          respEl.textContent = text;
+        } catch (err) {
+          statusEl.textContent = 'Network error';
+          respEl.textContent = String(err);
+        }
+      });
+    </script>
   </body>
   </html>
 
