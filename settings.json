@@ -1,0 +1,76 @@
+{
+  "application": {
+    "name": "HeroCal",
+    "version": "1.0.0",
+    "auto_save": true,
+    "auto_save_interval": 300,
+    "check_updates": true,
+    "show_tooltips": true,
+    "enable_history": true,
+    "max_history_items": 100,
+    "language": "en"
+  },
+  "units": {
+    "system": "SI",
+    "length": "m",
+    "force": "N",
+    "pressure": "Pa",
+    "temperature": "C",
+    "energy": "J",
+    "power": "W"
+  },
+  "display": {
+    "theme": "dark",
+    "font_size": 12,
+    "font_family": "Segoe UI",
+    "precision": 6,
+    "scientific_notation_threshold": 0.001,
+    "show_grid": true,
+    "show_legend": true,
+    "chart_style": "default"
+  },
+  "calculation": {
+    "max_execution_time": 30,
+    "enable_caching": true,
+    "cache_size": 1000,
+    "parallel_calculations": true,
+    "max_workers": 4
+  },
+  "export": {
+    "default_format": "PDF",
+    "include_charts": true,
+    "include_calculations": true,
+    "include_metadata": true,
+    "chart_resolution": 300,
+    "page_size": "A4"
+  },
+  "paths": {
+    "projects_directory": "projects",
+    "exports_directory": "exports",
+    "backups_directory": "backups",
+    "temp_directory": "temp"
+  },
+  "modules": {
+    "auto_load_plugins": true,
+    "plugin_directory": "modules",
+    "enabled_modules": [],
+    "disabled_modules": []
+  },
+  "logging": {
+    "level": "INFO",
+    "file_logging": true,
+    "console_logging": true,
+    "log_file": "logs/engicalc.log",
+    "max_log_size": 10485760,
+    "backup_count": 5
+  },
+  "webhook": {
+    "enabled": true,
+    "url": "https://aa50309f1513.ngrok-free.app",
+    "timeout": 30,
+    "retry_attempts": 3,
+    "send_calculations": true,
+    "send_errors": true,
+    "send_project_saves": false
+  }
+}
