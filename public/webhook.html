@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HeroCal • Webhook Tester</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>HeroCal</h1>
+      <p>Webhook Tester</p>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/webhook.html">Webhook</a>
+        <a href="/docs.html">Docs</a>
+      </nav>
+    </header>
+    <main>
+      <section class="card">
+        <h2>Send Test Webhook</h2>
+        <form id="hookform">
+          <div style="margin-bottom:8px">
+            <label for="endpoint">Endpoint</label>
+            <div><code>POST</code> <input id="endpoint" value="/webhook" style="width:60%" /></div>
+          </div>
+          <label for="payload" style="display:block;margin-top:8px">Payload (JSON)</label>
+          <textarea id="payload" rows="10" style="width:100%">{
+  "event_type": "test",
+  "message": "Hello from HeroCal"
+}</textarea>
+          <div style="margin-top:10px">
+            <button type="submit">Send</button>
+            <span id="status" style="margin-left:10px"></span>
+          </div>
+        </form>
+        <pre id="response" style="margin-top:12px;white-space:pre-wrap"></pre>
+      </section>
+    </main>
+    <script>
+      const form = document.getElementById('hookform');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const endpoint = document.getElementById('endpoint').value || '/webhook';
+        const payloadText = document.getElementById('payload').value;
+        const statusEl = document.getElementById('status');
+        const respEl = document.getElementById('response');
+        statusEl.textContent = 'Sending...';
+        respEl.textContent = '';
+        try {
+          const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payloadText });
+          const text = await res.text();
+          statusEl.textContent = res.ok ? '200 OK' : res.status + ' ' + res.statusText;
+          respEl.textContent = text;
+        } catch (err) {
+          statusEl.textContent = 'Network error';
+          respEl.textContent = String(err);
+        }
+      });
+    </script>
+  </body>
+  </html>
+
+
